@@ -1,0 +1,9 @@
+{
+    "name": "skounis/blellow_helper",
+    "description": "Additional functionality required by the Blellow Theme for Futurium D8 website",
+    "type": "drupal-module",
+    "minimum-stability": "dev",
+    "require": {
+        "drupal/ui_patterns": "^1.0"
+    }
+}
