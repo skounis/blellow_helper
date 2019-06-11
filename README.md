@@ -1,11 +1,11 @@
-# OpenEuropa Theme Helper
+# Blellow Theme Helper
 
-This module offers some additional functionality that might come in useful when
-theming an OpenEuropa website.
+This module offers some additional functionality that might come in useful for the Blellow theme.
 
 Here is an overview of the features it offers:
 
 ## Additional Twig filters
+> Work in progress
 
 ### format_size
 
