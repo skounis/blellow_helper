@@ -32,3 +32,13 @@ function blellow_helper_theme() {
     ],
   ];
 }
+
+function blellow_helper_preprocess_menu__account(&$variables) {
+  $items = $variables['items'];
+  foreach ($items as $key => &$item) {
+    // Hide register link.
+    if ($item['url']->getRouteName() == 'user.register' && Drupal::currentUser()->isAuthenticated()) {
+      unset($variables['items'][$key]);
+    }
+  }
+}

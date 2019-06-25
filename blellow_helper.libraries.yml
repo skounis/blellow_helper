@@ -7,6 +7,11 @@ login_register:
     js/components/login-register.js: {}
   dependencies:
     - core/jquery
+user_account:
+  version: 1.x
+  css:
+    theme:
+      css/components/user-account.css: {}
 newsletter:
   version: 1.x
   css:

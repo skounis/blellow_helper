@@ -28,6 +28,16 @@
 .cnect-dropdown__body a:visited {
   color: #fff;
 }
+
+.cnect-dropdown__body a.ecl-button--call,
+.cnect-dropdown__body a.ecl-button--call:visited{
+  color: #000;
+}
+
+.cnect-dropdown a:visited {
+  color: #fff;
+}
+
 .cnect-dropdown__body .form-check input[type='checkbox'] {
   float: left;
   margin-top: 3px;

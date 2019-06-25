@@ -1,0 +1,5 @@
+blellow.register:
+  title: 'Register'
+  weight: 10
+  menu_name: account
+  route_name: user.register
