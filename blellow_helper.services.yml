@@ -8,3 +8,20 @@ services:
     arguments: ['%blellow_helper.twig_loader.namespaces%', '@app.root', '%blellow_helper.twig_loader.theme%', '%blellow_helper.twig_loader.directory%', '@theme_handler']
     tags:
       - { name: twig.loader, priority: -50 }
+  blellow_helper.route_subscriber:
+    class: Drupal\blellow_helper\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+  blellow_helper.page_header_context:
+    class: Drupal\blellow_helper\ContextProvider\PageHeaderContext
+    arguments: ['@plugin.manager.page_header_metadata']
+    tags:
+      - { name: 'context_provider' }
+  plugin.manager.page_header_metadata:
+    class: Drupal\blellow_helper\PageHeaderMetadataPluginManager
+    parent: default_plugin_manager
+  blellow_helper.twig_extension.filters:
+    class: Drupal\blellow_helper\TwigExtension\Filters
+    arguments: ['@language_manager']
+    tags:
+    - { name: twig.extension }
