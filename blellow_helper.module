@@ -2,7 +2,7 @@
 
 /**
  * @file
- * OpenEuropa Corporate Blocks module.
+ * Blellow Corporate Blocks module.
  */
 /**
  * Implements hook_theme().
@@ -28,6 +28,11 @@ function blellow_helper_theme() {
     'cnect_corporate_blocks_newsletter' => [
       'variables' => [
         'corporate_newsletter' => [],
+      ],
+    ],
+    'group_page_title_block' => [
+      'variables' => [
+        'title' => NULL
       ],
     ],
   ];
