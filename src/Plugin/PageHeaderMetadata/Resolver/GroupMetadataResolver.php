@@ -17,7 +17,7 @@ class GroupMetadataResolver extends MetadataResolverBase {
     $node = $this->entities->getRelated();
     $visual_identity = FutGroupHelper::getVisualIdentity($group);
     $group_operations = FutGroupHelper::getGroupOperations($group);
-
+    $subtitle = isset($node) ? $node->label() : NULL;
     $groupUrl = $group->toUrl();
     $url = [];
     if (!empty($groupUrl)) {
@@ -26,6 +26,7 @@ class GroupMetadataResolver extends MetadataResolverBase {
 
     $actions = FutGroupHelper::groupActionsToECLArray($group_operations);
     $metadata = [
+      'subtitle' => $subtitle,
       'image' => $visual_identity,
       'actions' => $actions,
       'url' => $url,
