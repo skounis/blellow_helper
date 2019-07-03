@@ -17,3 +17,8 @@ newsletter:
   css:
     theme:
       css/components/newsletter.css: {}
+group_page_title:
+  version: 1.x
+  css:
+    theme:
+      css/components/group-page-title.css: {}

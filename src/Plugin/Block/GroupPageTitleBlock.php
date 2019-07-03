@@ -12,7 +12,10 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\group\Entity\GroupInterface;
+use False\MyClass;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -91,9 +94,13 @@ class GroupPageTitleBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function build(): array {
-    $metadata = $this->getContext('page_header')->getContextData()->getValue();
-    $title = $metadata['subtitle'] ?? $this->title;
+    $title = $this->getSubtitle();
     $build = [
+      '#attached' => [
+        'library' => [
+          'blellow_helper/group_page_title',
+        ]
+      ],
       '#theme' => 'group_page_title_block',
       '#title' => $title
     ];
@@ -108,6 +115,20 @@ class GroupPageTitleBlock extends BlockBase implements ContainerFactoryPluginInt
     $this->title = $title;
 
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function blockAccess(AccountInterface $account) {
+    $subtitle = $this->getSubtitle();
+    return \Drupal\Core\Access\AccessResult::allowedIf(!empty($subtitle));
+  }
+
+  private function getSubtitle() {
+    $metadata = $this->getContext('page_header')->getContextData()->getValue();
+    $subtitle = $metadata['subtitle'] ?? NULL;
+    return $subtitle;
   }
 
 }
