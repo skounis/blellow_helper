@@ -72,7 +72,7 @@ abstract class MetadataResolverBase {
 
     $metadata = [
       'title' => $this->entities->getPrimary()->label(),
-      'metas' => ['news article', '17 September 2014'],
+      'metas' => [], // eg: ['news article', '17 September 2014'],
       '_resolverClass' => get_class($this),
       '_entityClass' => get_class($this->entities->getPrimary()),
     ];
