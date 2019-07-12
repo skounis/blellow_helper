@@ -105,12 +105,24 @@ class EntityCanonicalRoutePage extends PageHeaderMetadataPluginBase implements C
    * {@inheritdoc}
    */
   public function getEntityFromCurrentRoute(): ?ContentEntityInterface {
+
+    // Routes with a group entity
+    $group_routes = array(
+      "view.fut_group_library.page_group_library",
+      "view.fut_group_posts.page_group_posts",
+      "view.fut_group_events.page_group_events",
+      "view.group_members.page_1",
+      "view.group_nodes.page_1",
+      "view.group_pending_members.page_1",
+      "view.subgroups.page");
+
+
     if (($route = $this->currentRouteMatch->getRouteObject()) && ($parameters = $route->getOption('parameters'))) {
       // Determine if the current route represents an entity.
       foreach ($parameters as $name => $options) {
         if (isset($options['type']) && strpos($options['type'], 'entity:') === 0) {
           $entity = $this->currentRouteMatch->getParameter($name);
-          if ($entity instanceof ContentEntityInterface && $this->currentRouteMatch->getRouteName() === "entity.{$entity->getEntityTypeId()}.canonical") {
+          if ($entity instanceof ContentEntityInterface && ($this->currentRouteMatch->getRouteName() === "entity.{$entity->getEntityTypeId()}.canonical") || in_array($this->currentRouteMatch->getRouteName(), $group_routes))  {
             return $entity;
           }
         }
