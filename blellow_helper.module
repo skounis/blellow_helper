@@ -30,6 +30,26 @@ function blellow_helper_theme() {
         'corporate_newsletter' => [],
       ],
     ],
+    'cnect_corporate_blocks_select_languages' => [
+      'variables' => [
+        'languages_local' => [
+          [
+            "href"=>  "/futuriumd8/web",
+            "hreflang"=> "bg",
+            "label"=> "български",
+            "lang"=> "bg",
+            "is_active"=> FALSE
+          ],
+          [
+            "href"=>  "/futuriumd8/web",
+            "hreflang"=> "cs",
+            "label"=> "čeština",
+            "lang"=> "cs",
+            "is_active"=> FALSE
+          ]
+        ]
+      ]
+    ],
     'group_page_title_block' => [
       'variables' => [
         'title' => NULL
@@ -46,4 +66,25 @@ function blellow_helper_preprocess_menu__account(&$variables) {
       unset($variables['items'][$key]);
     }
   }
+}
+
+function _blellow_helper_get_languages() {
+  $languages = [
+    [
+      "href"=>  "/futuriumd8/web",
+      "hreflang"=> "bg",
+      "label"=> "български",
+      "lang"=> "bg",
+      "is_active"=> FALSE
+    ],
+//    [
+//      "href"=>  "/futuriumd8/web",
+//      "hreflang"=> "cs",
+//      "label"=> "čeština",
+//      "lang"=> "cs",
+//      "is_active"=> FALSE
+//    ]
+  ];
+
+  return $languages;
 }
