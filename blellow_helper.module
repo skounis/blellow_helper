@@ -32,22 +32,7 @@ function blellow_helper_theme() {
     ],
     'cnect_corporate_blocks_select_languages' => [
       'variables' => [
-        'languages_local' => [
-          [
-            "href"=>  "/futuriumd8/web",
-            "hreflang"=> "bg",
-            "label"=> "български",
-            "lang"=> "bg",
-            "is_active"=> FALSE
-          ],
-          [
-            "href"=>  "/futuriumd8/web",
-            "hreflang"=> "cs",
-            "label"=> "čeština",
-            "lang"=> "cs",
-            "is_active"=> FALSE
-          ]
-        ]
+        'languages' => [],
       ]
     ],
     'group_page_title_block' => [
@@ -68,6 +53,12 @@ function blellow_helper_preprocess_menu__account(&$variables) {
   }
 }
 
+function blellow_helper_preprocess(&$variables) {
+  $variables['languages'] = _blellow_helper_get_languages();
+}
+
+
+
 function _blellow_helper_get_languages() {
   $languages = [
     [
@@ -77,13 +68,13 @@ function _blellow_helper_get_languages() {
       "lang"=> "bg",
       "is_active"=> FALSE
     ],
-//    [
-//      "href"=>  "/futuriumd8/web",
-//      "hreflang"=> "cs",
-//      "label"=> "čeština",
-//      "lang"=> "cs",
-//      "is_active"=> FALSE
-//    ]
+    [
+      "href"=>  "/futuriumd8/web",
+      "hreflang"=> "cs",
+      "label"=> "čeština",
+      "lang"=> "cs",
+      "is_active"=> FALSE
+    ]
   ];
 
   return $languages;
