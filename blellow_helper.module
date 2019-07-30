@@ -79,3 +79,13 @@ function _blellow_helper_get_languages() {
 
   return $languages;
 }
+
+/**
+ * Implements hook_themes_installed().
+ */
+function blellow_helper_themes_installed($theme_list) {
+// Flush plugins cache to catch new patterns defined by the theme.
+  $container = \Drupal::getContainer();
+  $uiPatternsManager = $container->get('plugin.manager.ui_patterns');
+  $uiPatternsManager->clearCachedDefinitions();
+}
