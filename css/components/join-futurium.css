@@ -1,0 +1,19 @@
+.cnect-join-futurium-widget {
+    background: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 3px;
+    margin: 0 0 0 1.66rem 0;
+    padding: 1.66rem;
+}
+
+.cnect-join-futurium-widget > h2 {
+    margin-top: 0;
+}
+
+.cnect-join-futurium-widget a:visited {
+    color: #fff;
+}
+
+.cnect-join-futurium-widget a:visited:hover {
+    color: #004494;
+}

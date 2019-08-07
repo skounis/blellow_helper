@@ -17,6 +17,16 @@ newsletter:
   css:
     theme:
       css/components/newsletter.css: {}
+welcome:
+  version: 1.x
+  css:
+    theme:
+      css/components/welcome.css: {}
+join_futurium:
+  version: 1.x
+  css:
+    theme:
+      css/components/join-futurium.css: {}
 group_page_title:
   version: 1.x
   css:

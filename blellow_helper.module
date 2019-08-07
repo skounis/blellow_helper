@@ -35,6 +35,12 @@ function blellow_helper_theme() {
         'languages' => [],
       ]
     ],
+    'cnect_corporate_blocks_welcome' => [
+      'variables' => []
+    ],
+    'cnect_corporate_blocks_join_futurium' => [
+      'variables' => []
+    ],
     'group_page_title_block' => [
       'variables' => [
         'title' => NULL
