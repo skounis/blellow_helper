@@ -65,7 +65,7 @@ class FooterBlock extends BlockBase implements ContainerFactoryPluginInterface {
     $cache = new CacheableMetadata();
     $cache->addCacheContexts(['languages:language_interface']);
 
-    $config = $this->configFactory->get('blellow_blocks.data.footer');
+    $config = $this->configFactory->get('blellow_helper.data.footer');
 
     $cache->addCacheableDependency($config);
 
