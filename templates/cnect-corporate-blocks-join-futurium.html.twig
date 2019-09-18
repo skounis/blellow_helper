@@ -12,16 +12,17 @@
  */
  #}
 
+{% set _url = url('<front>')|render ~ corporate_welcome.join.target %}
+
 <div class="cnect-join-futurium-widget">
-    <h2>{{ 'Join Futurium'|trans }}</h2>
+    <h2>{{ corporate_welcome.join.title |trans }}</h2>
     <div class="cnect-join-futurium-widget__body">
       <p class="ecl-paragraph ecl-paragraph--m ecl-u-color-grey-100">
-        Pellentesque iaculis fringilla auctor. Pellentesque commodo dolor
-        ex, in consequat turpis pharetra a. Curabitur in tristique odio. Ut vitae consectetur neque, eu faucibus massa.
-        In et varius mi. Donec varius mattis fermentum.
+        {{ corporate_welcome.join.body }}
       </p>
       <div class="input-group">
-        <a href="#" class="ecl-button ecl-button--primary">{{ 'Sign up with EU Login'|trans }}</a>
+        <a href="{{ _url  }}"
+           class="ecl-button ecl-button--primary">{{ corporate_welcome.join.call | trans }}</a>
       </div>
     </div>
   </div>

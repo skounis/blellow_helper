@@ -11,20 +11,20 @@
  * @ingroup themeable
  */
  #}
+{% set _url = url('<front>')|render ~ corporate_welcome.welcome.target %}
+
 <div class="cnect-welcome-widget">
 
-    <h1>Welcome on Futurium</h1>
+    <h1>{{ corporate_welcome.welcome.title | trans }}</h1>
 
     <div class="cnect-date-widget__body">
         <p class="ecl-paragraph ecl-paragraph--l ecl-u-color-grey-100">
-            Nunc semper nibh augue, sed bibendum dolor maximus ut. Nullam in mi augue. Proin metus sem, convallis eu
-            blandit sit amet, aliquet consequat mauris. Suspendisse tellus arcu, mattis eu vestibulum sit amet,
-            pellentesque vitae purus. Morbi euismod libero sed mattis tristique. Phasellus sapien velit, porttitor ac
-            eleifend nec, feugiat ut dolor. Quisque magna est, pretium ultricies malesuada ac.
+            {{ corporate_welcome.welcome.body }}
         </p>
 
         <div class="input-group">
-            <a class="ecl-button ecl-button--call ecl-button--caret-right">{{ 'Learn more about Futurium'|trans }}</a>
+            <a href="{{ _url  }}"
+               class="ecl-button ecl-button--call ecl-button--caret-right"> {{ corporate_welcome.welcome.call |trans }}</a>
         </div>
     </div>
 

@@ -36,10 +36,14 @@ function blellow_helper_theme() {
       ]
     ],
     'cnect_corporate_blocks_welcome' => [
-      'variables' => []
+      'variables' => [
+        'corporate_welcome' => []
+      ]
     ],
     'cnect_corporate_blocks_join_futurium' => [
-      'variables' => []
+      'variables' => [
+        'corporate_welcome' => []
+      ]
     ],
     'group_page_title_block' => [
       'variables' => [
