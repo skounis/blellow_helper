@@ -9,6 +9,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -93,4 +94,72 @@ class JoinFuturiumBlock extends BlockBase  implements ContainerFactoryPluginInte
     return $build;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form = parent::blockForm($form, $form_state);
+
+    $config = $this->configFactory->get('blellow_helper.data.welcome');
+
+    $form['join_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Header'),
+      '#description' => $this->t('The header of block'),
+      '#default_value' => $this->getSafeString($config, 'join_title')
+    ];
+
+    $form['join_body'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Body'),
+      '#description' => $this->t('The body of block'),
+      '#default_value' => $this->getSafeString($config, 'join_body')
+    ];
+
+    $form['join_call'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Label'),
+      '#description' => $this->t('The label of the button.'),
+      '#default_value' => $this->getSafeString($config, 'join_call')
+    ];
+
+    $form['join_target'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Target'),
+      '#description' => $this->t('The target URL or relative path.'),
+      '#default_value' => $this->getSafeString($config, 'join_target')
+    ];
+
+    return $form;
+  }
+
+  /**
+   * Resolves a value for the configuration
+   * @param $config
+   *   The configuration
+   * @param $key
+   *   The key
+   * @return string
+   *   Returns the value or an empty string
+   */
+  private function getSafeString($config, $key) {
+    return isset($config->getRawData()[$key]) ? $config->getRawData()[$key]: '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    parent::blockSubmit($form, $form_state);
+
+    $values = $form_state->getValues();
+    $config = $this->configFactory->getEditable('blellow_helper.data.welcome');
+
+    foreach ($values as $key => $value) {
+      if(array_key_exists($key, $config->getRawData())) {
+        $config->set($key, $value);
+      }
+    }
+    $config->save();
+  }
 }
