@@ -12,6 +12,7 @@ use Drupal\fut_group\RequestEntityExtractor;
 use Drupal\blellow_helper\PageHeaderMetadataPluginBase;
 use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Model\FutCurrentEntities;
 use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Resolver\MetadataResolverFactory;
+use Drupal\group\Entity\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -106,23 +107,40 @@ class EntityCanonicalRoutePage extends PageHeaderMetadataPluginBase implements C
    */
   public function getEntityFromCurrentRoute(): ?ContentEntityInterface {
 
-    // Routes with a group entity
-    $group_routes = array(
-      "view.fut_group_library.page_group_library",
-      "view.fut_group_posts.page_group_posts",
-      "view.fut_group_events.page_group_events",
-      "view.group_members.page_1",
-      "view.group_nodes.page_1",
-      "view.group_pending_members.page_1",
-      "view.subgroups.page");
-
+    /*
+     * Routes with a group entity
+     * If everything else fails use names to match a route with a Group
+     * e.g:
+       $group_routes = array(
+        "view.fut_group_library.page_group_library",
+        "view.fut_group_posts.page_group_posts",
+        "view.fut_group_events.page_group_events",
+        "view.group_members.page_1",
+        "view.group_nodes.page_1",
+        "view.group_pending_members.page_1",
+        "view.subgroups.page",
+        "fut_group.manage_group",
+        "fut_group.manage_group.edit",
+        "group_permissions.override_group_permissions",
+        "fut_group.manage_group.navigation",
+        "fut_group.manage_group.members",
+        "fut_group.manage_group.member_requests",
+        "view.group_invitations.page_1",
+        "fut_group.manage_group.layout",
+        "fut_group.manage_group.privacy",
+        "fut_group.manage_group_content.posts");
+     *
+     */
+    $group_routes = array();
 
     if (($route = $this->currentRouteMatch->getRouteObject()) && ($parameters = $route->getOption('parameters'))) {
       // Determine if the current route represents an entity.
       foreach ($parameters as $name => $options) {
         if (isset($options['type']) && strpos($options['type'], 'entity:') === 0) {
           $entity = $this->currentRouteMatch->getParameter($name);
-          if ($entity instanceof ContentEntityInterface && ($this->currentRouteMatch->getRouteName() === "entity.{$entity->getEntityTypeId()}.canonical") || in_array($this->currentRouteMatch->getRouteName(), $group_routes))  {
+          if ($entity instanceof ContentEntityInterface && ($this->currentRouteMatch->getRouteName() === "entity.{$entity->getEntityTypeId()}.canonical") ||
+            $entity instanceof Group ||
+            in_array($this->currentRouteMatch->getRouteName(), $group_routes))  {
             return $entity;
           }
         }
