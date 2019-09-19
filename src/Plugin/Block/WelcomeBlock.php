@@ -9,6 +9,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -92,6 +93,82 @@ class WelcomeBlock extends BlockBase implements ContainerFactoryPluginInterface{
     $cache->applyTo($build);
 
     return $build;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form = parent::blockForm($form, $form_state);
+
+    $config = $this->configFactory->get('blellow_helper.data.welcome');
+
+    $form['welcome_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Header'),
+      '#description' => $this->t('The header of block'),
+      '#default_value' => $this->getSafeString($config, 'welcome_title')
+    ];
+
+    $form['welcome_body'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Body'),
+      '#description' => $this->t('The body of block'),
+      '#default_value' => $this->getSafeString($config, 'welcome_body')
+    ];
+
+//    $form['welcome_cta'] = [
+//      '#type' => 'fieldset',
+//      '#open' => TRUE,
+//      '#title' => $this->t('Call for Action'),
+//      '#description' => $this->t('The CTA button.'),
+//    ];
+
+    $form['welcome_call'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Label'),
+      '#description' => $this->t('The label of the button.'),
+      '#default_value' => $this->getSafeString($config, 'welcome_call')
+    ];
+
+    $form['welcome_target'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Target'),
+      '#description' => $this->t('The target URL or relative path.'),
+      '#default_value' => $this->getSafeString($config, 'welcome_target')
+    ];
+
+    return $form;
+  }
+
+  /**
+   * Resolves a value for the configuration
+   * @param $config
+   *   The configuration
+   * @param $key
+   *   The key
+   * @return string
+   *   Returns the value or an empty string
+   */
+  private function getSafeString($config, $key) {
+    return isset($config->getRawData()[$key]) ? $config->getRawData()[$key]: '';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    parent::blockSubmit($form, $form_state);
+
+    $values = $form_state->getValues();
+    $config = $this->configFactory->getEditable('blellow_helper.data.welcome');
+
+    foreach ($values as $key => $value) {
+      if(array_key_exists($key, $config->getRawData())) {
+        $config->set($key, $value);
+      }
+    }
+    $config->save();
   }
 
 }
