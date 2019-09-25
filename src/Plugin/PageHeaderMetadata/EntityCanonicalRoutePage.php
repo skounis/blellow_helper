@@ -13,6 +13,7 @@ use Drupal\blellow_helper\PageHeaderMetadataPluginBase;
 use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Model\FutCurrentEntities;
 use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Resolver\MetadataResolverFactory;
 use Drupal\group\Entity\Group;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -138,7 +139,7 @@ class EntityCanonicalRoutePage extends PageHeaderMetadataPluginBase implements C
       foreach ($parameters as $name => $options) {
         if (isset($options['type']) && strpos($options['type'], 'entity:') === 0) {
           $entity = $this->currentRouteMatch->getParameter($name);
-          if ($entity instanceof ContentEntityInterface && ($this->currentRouteMatch->getRouteName() === "entity.{$entity->getEntityTypeId()}.canonical") ||
+          if ($this->isProperInstanceAndRoute($entity) ||
             $entity instanceof Group ||
             in_array($this->currentRouteMatch->getRouteName(), $group_routes))  {
             return $entity;
@@ -148,6 +149,18 @@ class EntityCanonicalRoutePage extends PageHeaderMetadataPluginBase implements C
     }
 
     return NULL;
+  }
+
+  /**
+   * Checks if we visit a canonical or edit_form of a ContentEntityInterface instance
+   * @param $entity
+   *   The entity to check for.
+   * @return bool
+   */
+  private function isProperInstanceAndRoute($entity): bool {
+    return $entity instanceof ContentEntityInterface &&
+      ($this->currentRouteMatch->getRouteName() === "entity.{$entity->getEntityTypeId()}.canonical" ||
+        $this->currentRouteMatch->getRouteName() === "entity.{$entity->getEntityTypeId()}.edit_form");
   }
 
   /**
