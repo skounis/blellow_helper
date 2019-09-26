@@ -115,7 +115,7 @@ class PageHeaderBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#metas' => $metadata['metas'] ?? [],
     ];
 
-    // TODO: We should also consider the breacrumb builder availabe in
+    // TODO: We should also consider the breadcrumb builder available in
     //       web/modules/custom/fut_blocks/src/Plugin/Block/FutPageHeaderBlock.php
     return $this->addBreadcrumbSegments($build, $title);
   }
@@ -151,11 +151,12 @@ class PageHeaderBlock extends BlockBase implements ContainerFactoryPluginInterfa
       ];
     }
     // Add the title to the segments only if it's not empty.
-    if (!empty($title)) {
-      $build['#breadcrumb'][] = [
-        'label' => $title,
-      ];
-    }
+    // We don't need the header title as part of the breadcrumb
+    //    if (!empty($title)) {
+    //      $build['#breadcrumb'][] = [
+    //        'label' => $title,
+    //      ];
+    //    }
     // Make sure that the cache metadata from the breadcrumb is not lost.
     CacheableMetadata::createFromObject($breadcrumb)->applyTo($build);
     return $build;
