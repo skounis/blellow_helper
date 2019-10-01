@@ -4,6 +4,7 @@
  * @file
  * Blellow Corporate Blocks module.
  */
+
 /**
  * Implements hook_theme().
  */
@@ -32,6 +33,7 @@ function blellow_helper_theme() {
     ],
     'cnect_corporate_blocks_select_languages' => [
       'variables' => [
+        'links' => [],
         'languages' => [],
       ]
     ],
@@ -53,6 +55,9 @@ function blellow_helper_theme() {
   ];
 }
 
+/**
+ * Implements hook_preprocess_menu__account().
+ */
 function blellow_helper_preprocess_menu__account(&$variables) {
   $items = $variables['items'];
   foreach ($items as $key => &$item) {
@@ -63,31 +68,11 @@ function blellow_helper_preprocess_menu__account(&$variables) {
   }
 }
 
+/**
+ * Implements hook_preprocess().
+ */
 function blellow_helper_preprocess(&$variables) {
-  $variables['languages'] = _blellow_helper_get_languages();
-}
 
-
-
-function _blellow_helper_get_languages() {
-  $languages = [
-    [
-      "href"=>  "/futuriumd8/web",
-      "hreflang"=> "bg",
-      "label"=> "български",
-      "lang"=> "bg",
-      "is_active"=> FALSE
-    ],
-    [
-      "href"=>  "/futuriumd8/web",
-      "hreflang"=> "cs",
-      "label"=> "čeština",
-      "lang"=> "cs",
-      "is_active"=> FALSE
-    ]
-  ];
-
-  return $languages;
 }
 
 /**
@@ -98,4 +83,11 @@ function blellow_helper_themes_installed($theme_list) {
   $container = \Drupal::getContainer();
   $uiPatternsManager = $container->get('plugin.manager.ui_patterns');
   $uiPatternsManager->clearCachedDefinitions();
+}
+
+/**
+ * Implements hook_preprocess_cnect_corporate_blocks_select_languages().
+ */
+function blellow_helper_preprocess_cnect_corporate_blocks_select_languages(array &$variables): void {
+  template_preprocess_links($variables);
 }
