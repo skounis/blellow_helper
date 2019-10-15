@@ -118,10 +118,12 @@ class GroupPageTitleBlock extends BlockBase implements ContainerFactoryPluginInt
    *   The subtitle.
    */
   private function fallback($metadata) {
-    if ($metadata['title'] == $metadata['page_title']) {
-      return NULL;
+    if (!array_key_exists ( 'title', $metadata )) {
+      return null;
     }
-
+    if ($metadata['title'] == $metadata['page_title']) {
+      return null;
+    }
     return $metadata['page_title'];
   }
 

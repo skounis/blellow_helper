@@ -95,11 +95,27 @@ abstract class MetadataResolverBase {
     if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
       $title = \Drupal::service('title_resolver')->getTitle($request, $route);
     }
-    if (is_a($title, 'TranslatableMarkup')) {
-      return $title->__toString();
-    }
+    $title = $this->reduce($title);
     return $title;
   }
 
+  /**
+   * Reduce a title into a string
+   * @param $title
+   *   The title, string, array or TranslatableMarkup
+   * @return string|null
+   */
+  private function reduce($title) {
+    if (is_string ( $title )) {
+      return $title;
+    }
+    if (is_array ( $title ) &&  array_key_exists ('#markup', $title)) {
+      return $title['#markup'];
+    }
+    if (is_a($title, 'Drupal\Component\Render\MarkupInterface')) {
+      return $title->__toString();
+    }
+    return NULL;
+  }
   abstract protected function _getMetadata();
 }
