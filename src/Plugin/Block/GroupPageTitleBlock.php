@@ -76,7 +76,6 @@ class GroupPageTitleBlock extends BlockBase implements ContainerFactoryPluginInt
       '#theme' => 'group_page_title_block',
       '#title' => $title
     ];
-
     return $build;
   }
 
@@ -85,7 +84,6 @@ class GroupPageTitleBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function setTitle($title): self {
     $this->title = $title;
-
     return $this;
   }
 
@@ -97,10 +95,34 @@ class GroupPageTitleBlock extends BlockBase implements ContainerFactoryPluginInt
     return AccessResult::allowedIf(!empty($subtitle));
   }
 
+  /**
+   * Select the proper subtitle for the page.
+   * When we are within the context of a group its name is used for the title.
+   * The title of the actual node/page is displayed as a subtitle.
+   * @return String|null
+   *   The subtitle.
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   */
   private function getSubtitle() {
     $metadata = $this->getContext('page_header')->getContextData()->getValue();
-    $subtitle = $metadata['subtitle'] ?? NULL;
+    $subtitle = $metadata['subtitle'] ?? $this->fallback($metadata);
     return $subtitle;
+  }
+
+  /**
+   * If there is no subtitle try to fall back in page title
+   *
+   * @param $metadata
+   *   The metadata array.
+   * @return String|null
+   *   The subtitle.
+   */
+  private function fallback($metadata) {
+    if ($metadata['title'] == $metadata['page_title']) {
+      return NULL;
+    }
+
+    return $metadata['page_title'];
   }
 
 }

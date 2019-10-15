@@ -4,6 +4,7 @@
 namespace Drupal\blellow_helper\Plugin\PageHeaderMetadata\Resolver;
 
 use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Model\FutCurrentEntities;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 
 /**
  * Class MetadataResolverBase
@@ -72,6 +73,7 @@ abstract class MetadataResolverBase {
 
     $metadata = [
       'title' => $this->entities->getPrimary()->label(),
+      'page_title' => $this->getPageTitle(),
       'metas' => [], // eg: ['news article', '17 September 2014'],
       '_resolverClass' => get_class($this),
       '_entityClass' => get_class($this->entities->getPrimary()),
@@ -80,6 +82,23 @@ abstract class MetadataResolverBase {
     $extra = $this->_getMetadata();
 
     return array_merge ($metadata, $extra);
+  }
+
+  /**
+   * Resolves and returns the actual title of the page.
+   * @return string
+   *   The page title.
+   */
+  protected function getPageTitle() {
+    $title = '';
+    $request = \Drupal::request();
+    if ($route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT)) {
+      $title = \Drupal::service('title_resolver')->getTitle($request, $route);
+    }
+    if (is_a($title, 'TranslatableMarkup')) {
+      return $title->__toString();
+    }
+    return $title;
   }
 
   abstract protected function _getMetadata();
