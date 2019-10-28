@@ -13,16 +13,19 @@
  #}
 
 {% set _url = url('<front>')|render ~ corporate_welcome.join.target %}
+{% set _title = corporate_welcome.join.title | default('') %}
+{% set _body = corporate_welcome.join.body | default('') %}
+{% set _call = corporate_welcome.join.call | default('') %}
 
 <div class="cnect-join-futurium-widget">
-    <h2>{{ corporate_welcome.join.title |trans }}</h2>
+    <h2>{{ _title |trans }}</h2>
     <div class="cnect-join-futurium-widget__body">
       <p class="ecl-paragraph ecl-paragraph--m ecl-u-color-grey-100">
-        {{ corporate_welcome.join.body }}
+        {{ _body | trans }}
       </p>
       <div class="input-group">
         <a href="{{ _url  }}"
-           class="ecl-button ecl-button--primary">{{ corporate_welcome.join.call | trans }}</a>
+           class="ecl-button ecl-button--primary">{{ _call | trans }}</a>
       </div>
     </div>
 </div>

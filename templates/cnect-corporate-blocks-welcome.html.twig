@@ -12,19 +12,22 @@
  */
  #}
 {% set _url = url('<front>')|render ~ corporate_welcome.welcome.target %}
+{% set _title = corporate_welcome.welcome.title | default('') %}
+{% set _body = corporate_welcome.welcome.body | default('') %}
+{% set _call = corporate_welcome.welcome.call | default('') %}
 
 <div class="cnect-welcome-widget">
 
-    <h1>{{ corporate_welcome.welcome.title | trans }}</h1>
+    <h1>{{ _title | trans }}</h1>
 
     <div class="cnect-date-widget__body">
         <p class="ecl-paragraph ecl-paragraph--l ecl-u-color-grey-100">
-            {{ corporate_welcome.welcome.body }}
+            {{ _body | trans }}
         </p>
 
         <div class="input-group">
             <a href="{{ _url  }}"
-               class="ecl-button ecl-button--call ecl-button--caret-right"> {{ corporate_welcome.welcome.call |trans }}</a>
+               class="ecl-button ecl-button--call ecl-button--caret-right"> {{ _call |trans }}</a>
         </div>
     </div>
 
