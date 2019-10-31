@@ -91,3 +91,48 @@ function blellow_helper_themes_installed($theme_list) {
 function blellow_helper_preprocess_cnect_corporate_blocks_select_languages(array &$variables): void {
   template_preprocess_links($variables);
 }
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function blellow_helper_preprocess_html(&$variables) {
+  $map = [
+    'Drupal\group\Entity\Group' => 'path-group-home'
+  ];
+
+  $entity = _blellow_helper_get_route_entity();
+  $className = $entity ? get_class($entity) : null;
+  $classCSS = $map[$className] ?? null;
+
+  if (!!$classCSS) {
+    $variables['attributes']['class'][] = $classCSS;
+  }
+}
+
+/**
+ * Return the current entity of a canonical route or null in any other case.
+ *
+ * @return mixed|null
+ */
+function _blellow_helper_get_route_entity() {
+  $re = '/^entity\..*\.canonical$/m';
+  $route_match = \Drupal::routeMatch();
+  $is_canonical = preg_match_all($re, $route_match->getRouteName());
+  if(!$is_canonical) {
+    return NULL;
+  }
+  // Entity will be found in the route parameters.
+  if (($route = $route_match->getRouteObject()) && ($parameters = $route->getOption('parameters'))) {
+    // Determine if the current route represents an entity.
+    foreach ($parameters as $name => $options) {
+      if (isset($options['type']) && strpos($options['type'], 'entity:') === 0) {
+        $entity = $route_match->getParameter($name);
+        if ($entity->hasLinkTemplate('canonical')) {
+          return $entity;
+        }
+        // Since entity was found, no need to iterate further.
+        return NULL;
+      }
+    }
+  }
+}

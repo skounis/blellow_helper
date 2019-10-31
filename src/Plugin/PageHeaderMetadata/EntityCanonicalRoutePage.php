@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\blellow_helper\Plugin\PageHeaderMetadata;
 
+use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Resolver\NotitleMetadataResolverFactory;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -11,9 +12,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\fut_group\RequestEntityExtractor;
 use Drupal\blellow_helper\PageHeaderMetadataPluginBase;
 use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Model\FutCurrentEntities;
-use Drupal\blellow_helper\Plugin\PageHeaderMetadata\Resolver\MetadataResolverFactory;
 use Drupal\group\Entity\Group;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -91,7 +90,7 @@ class EntityCanonicalRoutePage extends PageHeaderMetadataPluginBase implements C
     $entities = $this->getEntities();
 
     // Create a resolver
-    $resolver = MetadataResolverFactory::create($entities);
+    $resolver = NotitleMetadataResolverFactory::create($entities);
     $metadata = $resolver->getMetadata();
 
     $cacheability = new CacheableMetadata();

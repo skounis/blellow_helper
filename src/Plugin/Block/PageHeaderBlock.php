@@ -102,7 +102,8 @@ class PageHeaderBlock extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function build(): array {
     $metadata = $this->getContext('page_header')->getContextData()->getValue();
-    $title = $metadata['title'] ?? $this->title;
+//    $title = $metadata['title'] ?? $this->title;
+    $title = $metadata['title'] ?? '';
     $build = [
       '#type' => 'pattern',
       '#id' => 'page_header',
