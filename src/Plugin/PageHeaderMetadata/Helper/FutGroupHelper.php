@@ -27,6 +27,9 @@ class FutGroupHelper {
     }
 
     if ($group_operations) {
+      // Allow modules to alter the collection of gathered links.
+      \Drupal::moduleHandler()->alter('group_operations', $group_operations, $group);
+
       // Sort the operations by weight.
       uasort($group_operations, '\Drupal\Component\Utility\SortArray::sortByWeightElement');
       return $group_operations;
