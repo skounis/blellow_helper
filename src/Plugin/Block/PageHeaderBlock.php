@@ -148,7 +148,7 @@ class PageHeaderBlock extends BlockBase implements ContainerFactoryPluginInterfa
     foreach ($breadcrumb->getLinks() as $link) {
       $build['#breadcrumb'][] = [
         'href' => $link->getUrl(),
-        'label' => $link->getText(),
+        'label' => $this->resolveBreadcrumbLabel($link)
       ];
     }
     // Add the title to the segments only if it's not empty.
@@ -163,4 +163,14 @@ class PageHeaderBlock extends BlockBase implements ContainerFactoryPluginInterfa
     return $build;
   }
 
+  private function resolveBreadcrumbLabel($link) {
+    // The label we will use for the "home" link.
+    // To avoid confusion with the Group Home link we will rename that to "Futurium"
+    $HOME_SEGMENT_LABEL = 'Futurium';
+    if ($link->getUrl()->getRouteName() === '<front>') {
+      return $HOME_SEGMENT_LABEL;
+    } else {
+      return $link->getText();
+    }
+  }
 }
