@@ -5,6 +5,8 @@
  * Blellow Corporate Blocks module.
  */
 
+use Drupal\Core\Entity\ContentEntityInterface;
+
 /**
  * Implements hook_theme().
  */
@@ -97,16 +99,23 @@ function blellow_helper_preprocess_cnect_corporate_blocks_select_languages(array
  */
 function blellow_helper_preprocess_html(&$variables) {
   $map = [
-    'Drupal\group\Entity\Group' => 'path-group-home'
+    'Drupal\group\Entity\Group' => 'path-group-home',
+    'parent//Drupal\group\Entity\Group' => 'has-group-parent'
   ];
 
   $entity = _blellow_helper_get_route_entity();
-  $className = $entity ? get_class($entity) : null;
-  $classCSS = $map[$className] ?? null;
+  $parent = _blellow_helper_parent_group($entity);
 
-  if (!!$classCSS) {
-    $variables['attributes']['class'][] = $classCSS;
+  $className[] = $entity ? get_class($entity) : null;
+  $className[] = $parent ? 'parent//' . get_class($parent) : null;
+
+  foreach ($className as $item) {
+    if(isset($map[$item])) {
+      $classCSS[] = $map[$item];
+    }
   }
+
+  $variables['attributes']['class'][] = isset($classCSS) ? implode(' ', $classCSS) : '';
 }
 
 /**
@@ -135,4 +144,23 @@ function _blellow_helper_get_route_entity() {
       }
     }
   }
+}
+
+/**
+ * Resolves the parent group of an entity, if any.
+ *
+ * @param ContentEntityInterface|null $entity
+ * @return \Drupal\group\Entity\Group|null
+ */
+function _blellow_helper_parent_group(ContentEntityInterface $entity = null) {
+  if (!$entity) {
+    return null;
+  }
+  $content = \Drupal\group\Entity\GroupContent::loadByEntity($entity);
+  $content = current($content) ?? null;
+  if (!!$content) {
+    $group = $content->getGroup();
+    return $group;
+  }
+  return null;
 }
