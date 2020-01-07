@@ -1,9 +1,17 @@
 langcode: en
+#
+# Welcome Block
+#
 welcome_title: 'Your voices, your future'
 welcome_body: 'Futurium is a platform dedicated to Europeans discussing EU policies. Feel free to join any - or many of the groups of this platform. You can browse the groups without registering, but for leaving a comment or for liking you need to be a registered user.'
 welcome_call: 'Learn more about Futurium'
-welcome_target: content/about-futurium
+# Node ID
+welcome_target: 18
+#
+# Join Block
+#
 join_title: 'Join Futurium'
 join_body: 'Have an idea for Europe? Want to promote an initiative on a European level?  Need an online community with a European agenda? Join us on Futurium.'
 join_call: 'Sign up with EU Login'
-join_target: eulogin
+# Route
+join_target: cas.login

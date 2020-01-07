@@ -12,7 +12,7 @@
  */
  #}
 
-{% set _url = url('<front>')|render ~ corporate_welcome.join.target %}
+{% set _url = path(corporate_welcome.join.target) %}
 {% set _title = corporate_welcome.join.title | default('') %}
 {% set _body = corporate_welcome.join.body | default('') %}
 {% set _call = corporate_welcome.join.call | default('') %}
@@ -26,6 +26,9 @@
       <div class="input-group">
         <a href="{{ _url  }}"
            class="ecl-button ecl-button--primary">{{ _call | trans }}</a>
+
+      <a href="{{ path('cas.login')  }}"
+         class="ecl-button ecl-button--primary">{{ _call | trans }}</a>
       </div>
     </div>
 </div>

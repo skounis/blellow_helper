@@ -11,7 +11,7 @@
  * @ingroup themeable
  */
  #}
-{% set _url = url('<front>')|render ~ corporate_welcome.welcome.target %}
+{% set _url = path('entity.node.canonical', {'node': corporate_welcome.welcome.target}) %}
 {% set _title = corporate_welcome.welcome.title | default('') %}
 {% set _body = corporate_welcome.welcome.body | default('') %}
 {% set _call = corporate_welcome.welcome.call | default('') %}
