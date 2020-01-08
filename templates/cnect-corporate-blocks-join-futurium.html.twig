@@ -24,11 +24,8 @@
         {{ _body | trans }}
       </p>
       <div class="input-group">
-        <a href="{{ _url  }}"
+        <a href="{{ path('cas.login')  }}"
            class="ecl-button ecl-button--primary">{{ _call | trans }}</a>
-
-      <a href="{{ path('cas.login')  }}"
-         class="ecl-button ecl-button--primary">{{ _call | trans }}</a>
       </div>
     </div>
 </div>
