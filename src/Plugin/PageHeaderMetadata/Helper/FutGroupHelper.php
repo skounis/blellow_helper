@@ -36,6 +36,24 @@ class FutGroupHelper {
     }
   }
 
+  /**
+   * Resolves the parent of a Group if any.
+   *
+   * @param GroupInterface $group
+   *  The group to resolve the parent for.
+   * @return mixed|null
+   *  The parent group or null.
+   */
+  public static function getParentGroup(GroupInterface $group) {
+    if (!$group) {
+      return NULL;
+    }
+
+    $parent = \Drupal::service('ggroup.group_hierarchy_manager')->getGroupSupergroups($group->id());
+    $parent = reset($parent);
+    $parent = (!!$parent ? $parent : NULL);
+    return $parent;
+  }
 
   /**
    * Constructs array with src path for image and alt text.
@@ -69,10 +87,41 @@ class FutGroupHelper {
   }
 
   /**
-   *
-   * @param $actions
+   * @param GroupInterface $group
+   *  The group to resolve the URL for.
+   * @return array|\Drupal\Core\GeneratedUrl|string
+   *  The absolut URL to the group.
+   * @throws \Drupal\Core\Entity\EntityMalformedException
    */
+  public static function getUrl(?GroupInterface $group) {
+    $url = [];
+    if (!$group) {
+      return $url;
+    }
+    $groupUrl = $group->toUrl('canonical', [
+      'absolute' => TRUE,
+      'language' => \Drupal::languageManager()->getCurrentLanguage(),
+    ]);
+    if (!empty($groupUrl)) {
+      $url = $groupUrl->toString();
+    }
+    return $url;
+  }
 
+  /**
+   * @param GroupInterface $group
+   *  The group to resolve the title for.
+   * @return string|null
+   *  The title or null.
+   */
+  public static function getTitle(?GroupInterface $group) {
+    $title = NULL;
+    if (!$group) {
+      return $title;
+    }
+    $title = $group->label();
+    return $title;
+  }
 
   /**
    * Converts the group_operations to an ECL friendly array

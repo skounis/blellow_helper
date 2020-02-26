@@ -114,6 +114,8 @@ class PageHeaderBlock extends BlockBase implements ContainerFactoryPluginInterfa
       '#url' => $metadata['url'] ?? '',
       '#actions' => $metadata['actions'] ?? [],
       '#metas' => $metadata['metas'] ?? [],
+      '#parent_title' => $metadata['parent_title'] ?? '',
+      '#parent_url' => $metadata['parent_url'] ?? '',
     ];
 
     // TODO: We should also consider the breadcrumb builder available in
