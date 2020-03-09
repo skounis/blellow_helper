@@ -102,19 +102,18 @@ function blellow_helper_preprocess_html(&$variables) {
     'Drupal\group\Entity\Group' => 'path-group-home',
     'parent//Drupal\group\Entity\Group' => 'has-group-parent'
   ];
-
   $entity = _blellow_helper_get_route_entity();
-  $parent = _blellow_helper_parent_group($entity);
-
+  $parent = null;
+  if ($entity instanceof ContentEntityInterface) {
+    $parent = _blellow_helper_parent_group($entity);
+  }
   $className[] = $entity ? get_class($entity) : null;
   $className[] = $parent ? 'parent//' . get_class($parent) : null;
-
   foreach ($className as $item) {
     if(isset($map[$item])) {
       $classCSS[] = $map[$item];
     }
   }
-
   $variables['attributes']['class'][] = isset($classCSS) ? implode(' ', $classCSS) : '';
 }
 
