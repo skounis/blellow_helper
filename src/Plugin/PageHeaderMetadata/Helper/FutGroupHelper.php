@@ -4,6 +4,7 @@
 namespace Drupal\blellow_helper\Plugin\PageHeaderMetadata\Helper;
 
 
+use Drupal\group\Entity\Group;
 use Drupal\group\Entity\GroupInterface;
 use Drupal\image\Entity\ImageStyle;
 
@@ -26,6 +27,13 @@ class FutGroupHelper {
       $group_operations += $plugin->getGroupOperations($group);
     }
 
+    // Do not keep request membership form and button together. Form wins.
+    $hasForm = FutGroupHelper::hasRegistrationForm($group);
+    $group_operations = array_filter($group_operations, function($item) use ($hasForm) {
+      $route = $item['url']->getRouteName();
+      return !($route === 'entity.group.request_membership' && $hasForm);
+    });
+
     if ($group_operations) {
       // Allow modules to alter the collection of gathered links.
       \Drupal::moduleHandler()->alter('group_operations', $group_operations, $group);
@@ -34,6 +42,18 @@ class FutGroupHelper {
       uasort($group_operations, '\Drupal\Component\Utility\SortArray::sortByWeightElement');
       return $group_operations;
     }
+  }
+
+  /**
+   * Checks if a group has a request membership form attached.
+   *
+   * @param \Drupal\group\Entity\GroupInterface $group
+   *
+   * @return bool
+   */
+  public static function hasRegistrationForm(GroupInterface $group) {
+    $form = $group->get('fut_registration_form')->getValue();
+    return isset($form) && is_array($form) && !empty($form);
   }
 
   /**
