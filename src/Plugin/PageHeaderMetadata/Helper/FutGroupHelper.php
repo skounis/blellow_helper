@@ -27,12 +27,13 @@ class FutGroupHelper {
       $group_operations += $plugin->getGroupOperations($group);
     }
 
+    // TODO: Remove, it is moved in the `fut_webform` module.
     // Do not keep request membership form and button together. Form wins.
-    $hasForm = FutGroupHelper::hasRegistrationForm($group);
-    $group_operations = array_filter($group_operations, function($item) use ($hasForm) {
-      $route = $item['url']->getRouteName();
-      return !($route === 'entity.group.request_membership' && $hasForm);
-    });
+    // $hasForm = FutGroupHelper::hasRegistrationForm($group);
+    // $group_operations = array_filter($group_operations, function($item) use ($hasForm) {
+    //   $route = $item['url']->getRouteName();
+    //   return !($route === 'entity.group.request_membership' && $hasForm);
+    // });
 
     if ($group_operations) {
       // Allow modules to alter the collection of gathered links.
